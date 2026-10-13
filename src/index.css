@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- 设计令牌：深色电影质感（默认） / 浅色纸张 ---------- */
+:root,
+.dark {
+  --bg: 218 31% 5%;        /* #090C11 深空夜幕 */
+  --surface: 216 28% 9%;   /* 面板基底 */
+  --elevated: 215 25% 11%; /* #151B23 抬升面板 */
+  --fg: 40 22% 93%;        /* #F2EFE9 暖白 */
+  --muted: 217 12% 65%;
+  --faint: 217 10% 46%;
+  --line: 0 0% 100%;
+  --accent: 38 58% 63%;    /* #D7AE69 静谧金 */
+  --accent-soft: 38 58% 63%;
+  --accent-fg: 32 45% 10%;
+  --danger: 2 68% 62%;
+  --warning: 32 80% 60%;
+  --panel-opacity: 0.84;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  --bg: 36 22% 96%;
+  --surface: 40 20% 99%;
+  --elevated: 36 25% 99%;
+  --fg: 30 8% 12%;
+  --muted: 30 5% 42%;
+  --faint: 30 5% 60%;
+  --line: 30 10% 10%;
+  --accent: 36 52% 42%;
+  --accent-soft: 36 52% 42%;
+  --accent-fg: 36 40% 98%;
+  --danger: 2 65% 48%;
+  --warning: 28 72% 42%;
+  --panel-opacity: 0.9;
+  color-scheme: light;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: hsl(var(--bg));
+  color: hsl(var(--fg));
+  font-family: theme('fontFamily.sans');
+  font-feature-settings: 'ss01', 'cv01';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: hsl(var(--accent) / 0.28);
+}
+
+/* ---------- 滚动条 ---------- */
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--line) / 0.16) transparent;
+}
+.scroll-area::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scroll-area::-webkit-scrollbar-thumb {
+  background: hsl(var(--line) / 0.16);
+  border-radius: 99px;
+}
+.scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- 通用质感 ---------- */
+.panel-glass {
+  background: hsl(var(--surface) / var(--panel-opacity));
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+}
+
+/* 轻量玻璃：悬浮工具组用，存在感更低 */
+.glass-soft {
+  background: hsl(var(--surface) / 0.66);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ---------- 时光回放时间轴 ---------- */
+.playback-range {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+}
+.playback-range:focus {
+  outline: none;
+}
+.playback-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 99px;
+  background: linear-gradient(
+    to right,
+    hsl(var(--accent)) var(--fill, 0%),
+    hsl(var(--line) / 0.22) var(--fill, 0%)
+  );
+}
+.playback-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -6px;
+  height: 16px;
+  width: 16px;
+  border-radius: 99px;
+  background: hsl(var(--accent));
+  border: 2px solid hsl(var(--bg));
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.4);
+  transition: transform 0.15s ease;
+}
+.playback-range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+.playback-range::-moz-range-track {
+  height: 4px;
+  border-radius: 99px;
+  background: hsl(var(--line) / 0.22);
+}
+.playback-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 99px;
+  background: hsl(var(--accent));
+}
+.playback-range::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 99px;
+  background: hsl(var(--accent));
+  border: 2px solid hsl(var(--bg));
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.4);
+}
+
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+/* ---------- MapLibre 微调 ---------- */
+.maplibregl-map {
+  font-family: theme('fontFamily.sans');
+}
+.maplibregl-ctrl-attrib {
+  background: transparent !important;
+  font-size: 10px;
+  opacity: 0.72;
+}
+.maplibregl-ctrl-attrib-button {
+  display: none;
+}
+.maplibregl-ctrl-attrib-inner a {
+  color: hsl(var(--muted)) !important;
+  text-decoration: none;
+}
+.maplibregl-canvas {
+  outline: none;
+}
+
+/* 标记悬浮时的地图光标由组件控制 */
+.marker-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.marker-layer > * {
+  pointer-events: auto;
+}
+
+/* 照片网格进入动画 */
+.photo-item img {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
